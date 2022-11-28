@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider_class/controllers/theme_mode_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,29 +12,30 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   //YOU WOULD MOVE YOUR VARIABLE INSIDE THE PROVIDER CLASS
   //HERE YOU WILL CREATE YOUR INSTANCE OF THE PROVIDER CLASS
-  Color primaryColor = Colors.orange;
-  Color backgroundColor = Colors.white;
-  var iconFloatingElevationButton = const Icon(Icons.mode_night);
 
   @override
   Widget build(BuildContext context) {
+    final modeThemeProvider = Provider.of<ThemeModeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         //THIS VARIABLE WILL CHANGE IT STATE
-        backgroundColor: primaryColor,
+        backgroundColor: modeThemeProvider.primaryColor,
       ),
       body: Container(
         //THIS VARIABLE WILL CHANGE IT STATE
-        color: backgroundColor,
+        color: modeThemeProvider.backgroundColor,
       ),
       floatingActionButton: FloatingActionButton(
           //THIS VARIABLE WILL CHANGE IT STATE
-          backgroundColor: primaryColor,
+          backgroundColor: modeThemeProvider.primaryColor,
           //THIS VARIABLE WILL CHANGE IT STATE
-          child: iconFloatingElevationButton,
+          child: modeThemeProvider.iconFloatingElevationButton,
           onPressed: () {
             //HERE YOU WOULD CALL YOUR INSTANCE.YOURFUNCTION
             // DONT FORGET TO ADD THE IF STATEMENT
+            modeThemeProvider.primaryColor == Colors.orange
+                ? modeThemeProvider.changeThemeToDark()
+                : modeThemeProvider.changeThemeToLight();
           }),
     );
   }
